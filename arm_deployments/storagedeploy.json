@@ -1,0 +1,224 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "vnetName": {
+        "type": "string",
+        "defaultValue": "vnet_storage_eastus",
+        "metadata": {
+          "description": "VNet name"
+        }
+      },
+      "vnetAddressPrefix": {
+        "type": "string",
+        "defaultValue": "10.0.4.0/22",
+        "metadata": {
+          "description": "Address prefix"
+        }
+      },
+      "NSG1": {
+        "defaultValue": "NSG_Web_storage_eastus",
+        "type": "string",
+        "metadata": {
+          "description": "Name of NSG for Web_storage subnet"
+        }
+      },
+      "subnet1Prefix": {
+        "type": "string",
+        "defaultValue": "10.0.4.0/24",
+        "metadata": {
+          "description": "Subnet 1 Prefix"
+        }
+      },
+      "subnet1Name": {
+        "type": "string",
+        "defaultValue": "Web_storage_eastus",
+        "metadata": {
+          "description": "Subnet 1 Name"
+        }
+      },
+      "NSG2": {
+        "defaultValue": "NSG_App_storage_eastus",
+        "type": "string",
+        "metadata": {
+          "description": "Name of NSG for App_storage subnet"
+        }
+      },
+      "subnet2Prefix": {
+        "type": "string",
+        "defaultValue": "10.0.5.0/24",
+        "metadata": {
+          "description": "Subnet 2 Prefix"
+        }
+      },
+      "subnet2Name": {
+        "type": "string",
+        "defaultValue": "App_storage_eastus",
+        "metadata": {
+          "description": "Subnet 2 Name"
+        }
+      },
+      "NSG3": {
+        "defaultValue": "NSG_DB_storage_eastus",
+        "type": "string",
+        "metadata": {
+          "description": "Name of NSG for DB_storage subnet"
+        }
+      },
+      "subnet3Prefix": {
+        "type": "string",
+        "defaultValue": "10.0.6.0/24",
+        "metadata": {
+          "description": "Subnet 3 Prefix"
+        }
+      },
+      "subnet3Name": {
+        "type": "string",
+        "defaultValue": "DB_storage_eastus",
+        "metadata": {
+          "description": "Subnet 3 Name"
+        }
+      },
+      "BastionsubnetPrefix": {
+        "type": "string",
+        "defaultValue": "10.0.7.0/27",
+        "metadata": {
+          "description": "Subnet 2 Prefix"
+        }
+      },
+      "BastionsubnetName": {
+        "type": "string",
+        "defaultValue": "AzureBastionSubnet",
+        "metadata": {
+          "description": "Bastion Subnet  Name"
+        }
+      },
+      "RecoverserviceVaultName": {
+        "type": "string",
+        "defaultValue": "RSV-storage-eastus",
+        "metadata": {
+          "description": "Recovery Services Vault for Subscription"
+        }
+      },
+      "location": {
+        "type": "string",
+        "defaultValue": "[resourceGroup().location]",
+        "metadata": {
+          "description": "Location for all resources."
+        }
+      },
+      "resourceTags": {
+       "type": "object",
+       "defaultValue": {
+         "Environment": "storage",
+         "Created_By": "Airnet"
+       }
+     }
+    },
+    "variables": {},
+    "resources": [
+      {
+        "name": "[parameters('NSG1')]",
+        "type": "Microsoft.Network/networkSecurityGroups",
+        "apiVersion": "2018-10-01",
+        "location": "[parameters('location')]",
+        "tags": "[parameters('resourceTags')]",
+        "properties": {
+          "securityRules": [
+   
+          ]
+        }
+      },
+      {
+        "name": "[parameters('NSG2')]",
+        "type": "Microsoft.Network/networkSecurityGroups",
+        "apiVersion": "2018-10-01",
+        "location": "[parameters('location')]",
+        "tags": "[parameters('resourceTags')]",
+        "properties": {
+          "securityRules": [
+   
+          ]
+        }
+      },
+      {
+        "name": "[parameters('NSG3')]",
+        "type": "Microsoft.Network/networkSecurityGroups",
+        "apiVersion": "2018-10-01",
+        "location": "[parameters('location')]",
+        "tags": "[parameters('resourceTags')]",
+        "properties": {
+          "securityRules": [
+   
+          ]
+        }
+      },
+      {
+        "apiVersion": "2018-10-01",
+        "type": "Microsoft.Network/virtualNetworks",
+        "name": "[parameters('vnetName')]",
+        "location": "[parameters('location')]",
+        "tags": "[parameters('resourceTags')]",
+        "dependsOn": [
+            "[resourceId('Microsoft.Network/networkSecurityGroups',parameters('NSG1'))]",
+            "[resourceId('Microsoft.Network/networkSecurityGroups',parameters('NSG2'))]",
+            "[resourceId('Microsoft.Network/networkSecurityGroups',parameters('NSG3'))]"
+            ],
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "[parameters('vnetAddressPrefix')]"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "[parameters('subnet1Name')]",
+              "properties": {
+                "addressPrefix": "[parameters('subnet1Prefix')]",
+                "networkSecurityGroup": {
+                  "id": "[resourceId('Microsoft.Network/networkSecurityGroups',parameters('NSG1'))]"
+                }
+              }
+            },
+            {
+              "name": "[parameters('subnet2Name')]",
+              "properties": {
+                "addressPrefix": "[parameters('subnet2Prefix')]",
+                "networkSecurityGroup": {
+                   "id": "[resourceId('Microsoft.Network/networkSecurityGroups',parameters('NSG2'))]"
+                }
+              }
+            },
+            {
+              "name": "[parameters('subnet3Name')]",
+              "properties": {
+                "addressPrefix": "[parameters('subnet3Prefix')]",
+                "networkSecurityGroup": {
+                   "id": "[resourceId('Microsoft.Network/networkSecurityGroups',parameters('NSG3'))]"
+                }
+              }
+            },
+            {
+              "name": "[parameters('BastionsubnetName')]",
+              "properties": {
+                "addressPrefix": "[parameters('BastionsubnetPrefix')]"
+              }
+            }
+          ]
+        }
+      },
+     {
+       "name": "[parameters('RecoverserviceVaultName')]",
+       "type": "Microsoft.RecoveryServices/vaults",
+       "apiVersion": "2018-01-10",
+       "location": "[resourceGroup().location]",
+       "tags": "[parameters('resourceTags')]",
+       "sku": {
+         "name": "RS0",
+         "tier": "Standard"
+       },
+       "properties": {
+       }
+     }
+    ]
+   }
