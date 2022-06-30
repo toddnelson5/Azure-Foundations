@@ -21,3 +21,7 @@ resource serviceRG 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   }
 }
 
+module storagedeploy 'servicesdeploy.bicep' ={ 
+scope: resourceGroup(serviceRG.name)
+  name: 'servicesdeployment-${uniqueString(serviceRG.id)}'
+}
