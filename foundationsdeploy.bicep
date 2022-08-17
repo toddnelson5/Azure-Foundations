@@ -1,10 +1,10 @@
 targetScope = 'subscription'
 
 @description('services resource group name')
-param resourceGroupName string = 'rg_bicep_deployment'
+param servicesGroupName string = 'rg_services_deployment'
 
 @description('production resource group name')
-param prodGroupName string = 'rg_prod_deployment'
+param productionGroupName string = 'rg_production_deployment'
 
 @description('Resource group location')
 param location string = 'East US'
@@ -16,7 +16,7 @@ param resourceTags object = {
 }
 
 resource serviceRG 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: resourceGroupName
+  name: servicesGroupName
   location: location
   tags: resourceTags
   properties:{
@@ -25,7 +25,7 @@ resource serviceRG 'Microsoft.Resources/resourceGroups@2021-04-01' = {
 }
 
 resource productionRG 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: prodGroupName
+  name: productionGroupName
   location: location
   tags: resourceTags
   properties:{
@@ -33,13 +33,13 @@ resource productionRG 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   }
 }
 
-module foundationsdeploy servicesnoGWdeploy.bicep ={ 
+module servicesdeploy 'servicesnoGWdeploy.bicep' ={ 
 scope: resourceGroup(serviceRG.name)
   name: 'servicesdeployment-${uniqueString(serviceRG.id)}'
 
 }
 
-module proddeploy proddeploy.bicep = {
+module proddeploy 'proddeploy.bicep' = {
 scope: resourceGroup(prodRG.name)
   name: 'productiondeploymnet-${uniqueString(prodRG.id)}'
   
