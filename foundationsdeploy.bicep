@@ -1,7 +1,7 @@
 targetScope = 'subscription'
 
 @description('resource group name')
-param resourceGroupName string = 'rg_services_foundations'
+param resourceGroupName string = 'rg_bicep_deployment'
 
 @description('Resource group location')
 param location string = 'East US'
@@ -21,7 +21,8 @@ resource serviceRG 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   }
 }
 
-module storagedeploy 'servicesdeploy.bicep' ={ 
+module foundationsdeploy 'servicesdeploy.bicep' ={ 
 scope: resourceGroup(serviceRG.name)
   name: 'servicesdeployment-${uniqueString(serviceRG.id)}'
+
 }
