@@ -40,7 +40,7 @@ scope: resourceGroup(serviceRG.name)
 }
 
 module proddeploy 'proddeploy.bicep' = {
-scope: resourceGroup(prodRG.name)
-  name: 'productiondeploymnet-${uniqueString(prodRG.id)}'
+scope: resourceGroup(productionRG.name)
+  name: 'productiondeploymnet-${uniqueString(productionRG.id)}'
   
 }
