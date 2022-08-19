@@ -1,0 +1,118 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "servicesGroupName": {
+        "type": "string",
+        "defaultValue": "rg_services_deployment",
+        "metadata": {
+          "description": "services resource group name - foundationsdeploy"
+        }
+      },
+      "productionGroupName": {
+        "type": "string",
+        "defaultValue": "rg_production_deployment",
+        "metadata": {
+          "description": "production resource group name - foundationsdeploy"
+        }
+      },
+      "location": {
+        "type": "string",
+        "defaultValue": "East US",
+        "metadata": {
+          "description": "Resource group location - foundationsdeploy"
+        }
+      },
+      "resourceTags": {
+        "type": "object",
+        "defaultValue": {
+          "Environment": "Services",
+          "Created_By": "Airnet"
+        },
+        "metadata": {
+          "description": "resource tags for deployed resources - foundationsdeploy"
+        }
+      },
+      "vnetName": {
+        "type": "string",
+        "defaultValue": "vnet_services_eastus",
+        "metadata": {
+          "description": "VNet name - servicesdeploy"
+        }
+      },
+      "vnetAddressPrefix": {
+        "type": "string",
+        "defaultValue": "10.0.0.0/24",
+        "metadata": {
+          "description": "Address prefix - servicesdeploy"
+        }
+      },
+      "NSG1": {
+        "type": "string",
+        "defaultValue": "NSG_services_eastus",
+        "metadata": {
+          "description": "Name of NSG for Web_Users subnet - servicesdeploy"
+        }
+      },
+      "subnet1Prefix": {
+        "type": "string",
+        "defaultValue": "10.0.0.0/25",
+        "metadata": {
+          "description": "Subnet 1 Prefix - servicesdeploy"
+        }
+      },
+      "subnet1Name": {
+        "type": "string",
+        "defaultValue": "services_eastus",
+        "metadata": {
+          "description": "Subnet 1 Name - servicesdeploy"
+        }
+      },
+      "GatewaysubnetPrefix": {
+        "type": "string",
+        "defaultValue": "10.0.0.128/27",
+        "metadata": {
+          "description": "Gateway Subnet Prefix - servicesdeploy"
+        }
+      },
+      "GatewaysubnetName": {
+        "type": "string",
+        "defaultValue": "GatewaySubnet",
+        "metadata": {
+          "description": "Gateway Subnet Name - servicesdeploy"
+        }
+      },
+      "BastionsubnetPrefix": {
+        "type": "string",
+        "defaultValue": "10.0.0.160/27",
+        "metadata": {
+          "description": "Bastion Subnet Prefix - servicesdeploy"
+        }
+      },
+      "BastionsubnetName": {
+        "type": "string",
+        "defaultValue": "AzureBastionSubnet",
+        "metadata": {
+          "description": "Bastion Subnet  Name - servicesdeploy"
+        }
+      },
+      "loganalyticsname": {
+        "type": "string",
+        "defaultValue": "la-Services-Eastus",
+        "metadata": {
+          "description": "log analytics name and sku - servicesdeploy"
+        }
+      },
+      "loganalyticssku": {
+        "type": "string",
+        "defaultValue": "pergb2018"
+      },
+      "RecoveryServicesVaultName": {
+        "type": "string",
+        "defaultValue": "rsv-services-eastus",
+        "metadata": {
+          "description": "Recovery services vault for services subscription"
+        }
+      }
+    }
+  }
