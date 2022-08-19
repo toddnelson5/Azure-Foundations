@@ -1,5 +1,3 @@
-targetScope = 'subscription'
-
 @description('services resource group name - foundationsdeploy')
 param servicesGroupName string = 'rg_services_deployment'
 
