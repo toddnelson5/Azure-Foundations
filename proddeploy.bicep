@@ -141,7 +141,6 @@ resource RecoverserviceVaultName_resource 'Microsoft.RecoveryServices/vaults@201
 
 resource prodVnettoservicesVnet 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2022-01-01' = {
   name: vnetPeeringName
-  location: location
   properties: {
     allowVirtualNetworkAccess: true
     allowForwardedTraffic: false
