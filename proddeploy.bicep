@@ -130,7 +130,7 @@ resource vnetName_resource 'Microsoft.Network/virtualNetworks@2018-10-01' = {
 
 resource RecoverserviceVaultName_resource 'Microsoft.RecoveryServices/vaults@2018-01-10' = {
   name: RecoverserviceVaultName
-  location: resourceGroup().location
+  location: location
   tags: resourceTags
   sku: {
     name: 'RS0'
@@ -141,7 +141,7 @@ resource RecoverserviceVaultName_resource 'Microsoft.RecoveryServices/vaults@201
 
 resource prodVnet_servicesVnet 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2022-01-01' = {
   name: vnetPeeringName
-  location: resourceGroup().location
+  location: location
   properties: {
     allowVirtualNetworkAccess: true
     allowForwardedTraffic: false
