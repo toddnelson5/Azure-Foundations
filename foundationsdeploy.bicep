@@ -15,15 +15,8 @@ param resourceTags object = {
   Created_By: 'Airnet'
 }
 
-@description('Set the local VNet name')
-param existingLocalVirtualNetworkName string
-
-@description('Set the remote VNet name')
-param existingRemoteVirtualNetworkName string
-
-@description('Sets the remote VNet Resource group')
-param existingRemoteVirtualNetworkResourceGroupName string
-
+@description('name for peering resource')
+param vnetPeeringName string = 'vnet_prod_to_vnet_services'
 
 resource serviceRG 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: servicesGroupName
@@ -56,15 +49,16 @@ scope: resourceGroup(productionRG.name)
 }
 
 
-resource existingLocalVirtualNetworkName_peering_to_remote_vnet 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2021-02-01' = {
-  name: '${existingLocalVirtualNetworkName}/peering-to-remote-vnet'
+resource prodVnet_servicesVnet 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2022-01-01' = {
+  name: vnetPeeringName
+  location: resourceGroup().location
   properties: {
     allowVirtualNetworkAccess: true
     allowForwardedTraffic: false
     allowGatewayTransit: false
     useRemoteGateways: false
     remoteVirtualNetwork: {
-      id: resourceId(existingRemoteVirtualNetworkResourceGroupName, 'Microsoft.Network/virtualNetworks', existingRemoteVirtualNetworkName)
+      id: '/subscriptions/<subscription ID>/resourceGroups/PeeringTest/providers/Microsoft.Network/virtualNetworks/myVnetB'
     }
   }
 }
