@@ -54,7 +54,10 @@ resource existingLocalVirtualNetworkName_peering_to_remote_vnet 'Microsoft.Netwo
   }
 }
 
-
+resource net 'Microsoft.Network/virtualNetworks@2020-11-01' existing = {
+    scope: resourceGroup('f0750bbe-ea75-4ae5-b24d-a92ca601da2c', 'networking-rg')
+    name: 'toy-design-vnet'
+}
 
 Using Scope to reference resources in other Resource Groups or Subscriptions
 The documented spec for this can be found here: bicep/resource-scopes.md at main · Azure/bicep (github.com)
