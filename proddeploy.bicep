@@ -44,7 +44,7 @@ param RecoverserviceVaultName string = 'RSV-prod-eastus'
 param vnetPeeringName string = 'vnet_prod_to_vnet_services'
 
 @description('remote vnet id')
-param remoteVnetID string = '/subscriptions/<subscription ID>/resourceGroups/PeeringTest/providers/Microsoft.Network/virtualNetworks/myVnetB'
+param remoteVnetID string = '/subscriptions/998fcc13-ae53-45e4-8d32-afba8e0964f4/resourceGroups/rg_services/providers/Microsoft.Network/virtualNetworks/vnet_servcies_eastus'
 
 @description('Location for all resources.')
 param location string = resourceGroup().location
