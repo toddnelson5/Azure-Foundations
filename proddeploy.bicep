@@ -139,7 +139,8 @@ resource RecoverserviceVaultName_resource 'Microsoft.RecoveryServices/vaults@201
   properties: {}
 }
 
-resource prodVnettoservicesVnet 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2022-01-01' = {
+
+resource justaname 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2022-01-01' = {
   name: vnetPeeringName
   properties: {
     allowVirtualNetworkAccess: true
@@ -149,5 +150,5 @@ resource prodVnettoservicesVnet 'Microsoft.Network/virtualNetworks/virtualNetwor
     remoteVirtualNetwork: {
       id: remoteVnetID
     }
-  }
+  } 
 }
