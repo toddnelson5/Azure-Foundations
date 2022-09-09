@@ -40,6 +40,12 @@ param BastionsubnetName string = 'AzureBastionSubnet'
 @description('Recovery Services Vault for Subscription')
 param RecoverserviceVaultName string = 'RSV-prod-eastus'
 
+@description('name for peering resource')
+param vnetPeeringName string = 'vnet_prod_to_vnet_services'
+
+@description('remote vnet id')
+param remoteVnetID string = '/subscriptions/<subscription ID>/resourceGroups/PeeringTest/providers/Microsoft.Network/virtualNetworks/myVnetB'
+
 @description('Location for all resources.')
 param location string = resourceGroup().location
 param resourceTags object = {
@@ -131,4 +137,18 @@ resource RecoverserviceVaultName_resource 'Microsoft.RecoveryServices/vaults@201
     tier: 'Standard'
   }
   properties: {}
+}
+
+resource prodVnet_servicesVnet 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2022-01-01' = {
+  name: vnetPeeringName
+  location: resourceGroup().location
+  properties: {
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: false
+    allowGatewayTransit: false
+    useRemoteGateways: true
+    remoteVirtualNetwork: {
+      id: remoteVnetID
+    }
+  }
 }
