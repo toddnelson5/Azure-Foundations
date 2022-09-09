@@ -41,7 +41,7 @@ param BastionsubnetName string = 'AzureBastionSubnet'
 param RecoverserviceVaultName string = 'RSV-prod-eastus'
 
 @description('name for peering resource')
-param vnetPeeringName string = 'vnet_prod_to_vnet_services'
+param vnetPeeringName string = 'vnetprodtovnetservices'
 
 @description('remote vnet id')
 param remoteVnetID string = '/subscriptions/998fcc13-ae53-45e4-8d32-afba8e0964f4/resourceGroups/rg_services/providers/Microsoft.Network/virtualNetworks/vnet_servcies_eastus'
