@@ -43,14 +43,19 @@ param RecoverserviceVaultName string = 'RSV-prod-eastus'
 @description('name for peering resource')
 param vnetPeeringName string = 'vnetprodtovnetservices'
 
-@description('remote vnet id')
-param remoteVnetID string = '/subscriptions/998fcc13-ae53-45e4-8d32-afba8e0964f4/resourceGroups/rg_services/providers/Microsoft.Network/virtualNetworks/vnet_servcies_eastus'
-
 @description('Location for all resources.')
 param location string = resourceGroup().location
 param resourceTags object = {
   Environment: 'Production'
   Created_By: 'Airnet'
+}
+
+param servicesVnet string
+param servicesRG string
+
+resource servicesnetwork 'Microsoft.Network/virtualNetworks@2022-01-01' existing = {
+  name: servicesVnet
+  scope: resourceGroup()
 }
 
 resource NSG1_resource 'Microsoft.Network/networkSecurityGroups@2018-10-01' = {
@@ -127,6 +132,20 @@ resource vnetName_resource 'Microsoft.Network/virtualNetworks@2018-10-01' = {
     ]
   }
 }
+
+resource peering 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2020-07-01' = {
+  name: vnetPeeringName
+  properties: {
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: true
+    useRemoteGateways: true
+    remoteVirtualNetwork: {
+      id: 
+    }
+  }
+}
+
 
 resource RecoverserviceVaultName_resource 'Microsoft.RecoveryServices/vaults@2018-01-10' = {
   name: RecoverserviceVaultName
