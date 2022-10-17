@@ -1,0 +1,26 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "0.0.0.1",
+    "parameters": {
+        "ParameterArray": {
+            "value": [
+                {
+                    "VnetAName": "VnetA",
+                    "VnetBName": "VnetB",
+                    "VnetASubscriptionId": "f8777355-9999-7777-4444-123456fb271e",
+                    "VnetBSubscriptionId": "4f114590-9999-5556-ccec-b271e123456",
+                    "VnetAResourceGroup": "RgA",
+                    "VnetBResourceGroup": "RgB"
+                },
+                {
+                    "VnetAName": "VnetA",
+                    "VnetCName": "VnetC",
+                    "VnetASubscriptionId": "f8777355-9999-7777-4444-123456fb271e",
+                    "VnetCSubscriptionId": "5f56ddd7-9999-5556-ccec-b271e123456",
+                    "VnetAResourceGroup": "RgA",
+                    "VnetCResourceGroup": "RgC"
+                }
+            ]
+        }
+    }
+}

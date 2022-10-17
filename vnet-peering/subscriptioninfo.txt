@@ -1,0 +1,6 @@
+vnet_peering_one - Visual Studio Subscription
+/subscriptions/d443b656-703f-4c4c-bc3b-c808d015826c/resourceGroups/rg_peeringtest/providers/Microsoft.Network/virtualNetworks/vnet_peering_one
+
+vnet_peering_two - Microsoft Partner Network
+/subscriptions/fdb4ef22-c1ed-41e2-a0f5-f687c48dc007/resourceGroups/rg_peeringtest/providers/Microsoft.Network/virtualNetworks/vnet_peering_two
+
