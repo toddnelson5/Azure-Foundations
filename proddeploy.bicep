@@ -1,11 +1,6 @@
-@description('VNet name')
-param vnetName string = 'vnet_prod_eastus'
-
 @description('Address prefix')
 param vnetAddressPrefix string = '10.0.4.0/22'
 
-@description('Name of NSG for Web_Prod subnet')
-param NSG1 string = 'NSG_Web_Prod_eastus'
 
 @description('Subnet 1 Prefix')
 param subnet1Prefix string = '10.0.4.0/24'
@@ -48,7 +43,7 @@ param resourceTags object = {
 }
 
 resource NSG1_resource 'Microsoft.Network/networkSecurityGroups@2018-10-01' = {
-  name: NSG1
+  name: "NSG_Web_Prod_eastus"
   location: location
   tags: resourceTags
   properties: {
@@ -75,7 +70,7 @@ resource NSG3_resource 'Microsoft.Network/networkSecurityGroups@2018-10-01' = {
 }
 
 resource vnet 'Microsoft.Network/virtualNetworks@2018-10-01' = {
-  name: vnetName
+  name: "[concat ('vnet_prod_',resourceGroup().location)]"
   location: location
   tags: resourceTags
   properties: {
