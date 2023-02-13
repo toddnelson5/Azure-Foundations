@@ -50,7 +50,7 @@
     "servicesVnet": "[format('vnet_services_{0}', variables('location'))]",
     "servicesNSG": "[format('NSG_services_{0}', variables('location'))]",
     "servicesSubnet": "services-subnet",
-    "servicesla": "[format('la-services-{0}', variables('location'))]",
+    "servicesla": "[format('la_services_{0}', variables('location'))]",
     "servicesrsv": "[format('rsv-services-{0}', variables('location'))]"
   },
   "resources": [
