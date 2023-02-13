@@ -1,0 +1,91 @@
+@description('Address prefix')
+param vnetIPspace string = '10.0.0.0/24'
+
+@description('Subnet 1 Prefix')
+param servicessubnetIP string = '10.0.0.0/25'
+
+@description('Bastion Subnet Prefix')
+param BastionsubnetIP string = '10.0.0.128/26'
+
+@description('Gateway Subnet Prefix')
+param GatewaysubnetIP string = '10.0.0.192/27'
+
+param resourceTags object = {
+  Environment: 'Services'
+  Created_By: 'Dataprise'
+}
+
+var location = resourceGroup().location
+var servicesVnet = ${vnet_services_} + location
+var servicesNSG = ${NSG_services_} + location
+var servicesSubnet = ${services-subnet} + location
+var servicesla = ${la-services-} + location
+var servicesrsv = ${rsv-services-} + location
+
+resource NSG1_resource 'Microsoft.Network/networkSecurityGroups@2018-10-01' = {
+  name: servicesNSG
+  location: location
+  tags: resourceTags
+  properties: {
+    securityRules: []
+  }
+}
+
+resource vnet 'Microsoft.Network/virtualNetworks@2015-05-01-preview' = {
+  name: servicesVnet
+  location: location
+  tags: resourceTags
+  properties: {
+    addressSpace: {
+      addressPrefixes: [
+        vnetIPspace
+      ]
+    }
+    subnets: [
+      {
+        name: servicesSubnet
+        properties: {
+          addressPrefix: servicessubnetIP
+          networkSecurityGroup: {
+            id: servicesNSG.id
+          }
+        }
+      }
+      {
+        name: 'GatewaySubnet'
+        properties: {
+          addressPrefix: GatewaysubnetIP
+        }
+      }
+      {
+        name: 'AzureBastionSubnet'
+        properties: {
+          addressPrefix: BastionsubnetIP
+        }
+      }
+    ]
+  }
+}
+
+resource loganalyticsname_resource 'Microsoft.OperationalInsights/workspaces@2017-03-15-preview' = {
+  name: servicesla
+  location: location
+  tags: resourceTags
+  properties: {
+    sku: {
+      name: 'pergb2018'
+    }
+  }
+}
+
+resource RecoveryServicesVault 'Microsoft.RecoveryServices/vaults@2018-01-10' = {
+  name: servicesrsv
+  location: location
+  tags: resourceTags
+  sku: {
+    name: 'RS0'
+    tier: 'Standard'
+  }
+  properties: {
+  }
+}
