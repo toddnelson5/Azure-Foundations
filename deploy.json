@@ -1,0 +1,132 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.14.46.61228",
+      "templateHash": "17616767981471120806"
+    }
+  },
+  "parameters": {
+    "vnetIPspace": {
+      "type": "string",
+      "defaultValue": "10.0.0.0/24",
+      "metadata": {
+        "description": "Address prefix"
+      }
+    },
+    "servicessubnetIP": {
+      "type": "string",
+      "defaultValue": "10.0.0.0/25",
+      "metadata": {
+        "description": "Subnet 1 Prefix"
+      }
+    },
+    "BastionsubnetIP": {
+      "type": "string",
+      "defaultValue": "10.0.0.128/26",
+      "metadata": {
+        "description": "Bastion Subnet Prefix"
+      }
+    },
+    "GatewaysubnetIP": {
+      "type": "string",
+      "defaultValue": "10.0.0.192/27",
+      "metadata": {
+        "description": "Gateway Subnet Prefix"
+      }
+    },
+    "resourceTags": {
+      "type": "object",
+      "defaultValue": {
+        "Environment": "Services",
+        "Created_By": "Dataprise"
+      }
+    }
+  },
+  "variables": {
+    "location": "[resourceGroup().location]",
+    "servicesVnet": "[format('vnet_services_{0}', variables('location'))]",
+    "servicesNSG": "[format('NSG_services_{0}', variables('location'))]",
+    "servicesSubnet": "services-subnet",
+    "servicesla": "[format('la-services-{0}', variables('location'))]",
+    "servicesrsv": "[format('rsv-services-{0}', variables('location'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2018-10-01",
+      "name": "[variables('servicesNSG')]",
+      "location": "[variables('location')]",
+      "tags": "[parameters('resourceTags')]",
+      "properties": {
+        "securityRules": []
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualnetworks",
+      "apiVersion": "2015-05-01-preview",
+      "name": "[variables('servicesVnet')]",
+      "location": "[variables('location')]",
+      "tags": "[parameters('resourceTags')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('vnetIPspace')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('servicesSubnet')]",
+            "properties": {
+              "addressPrefix": "[parameters('servicessubnetIP')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('servicesNSG'))]"
+              }
+            }
+          },
+          {
+            "name": "GatewaySubnet",
+            "properties": {
+              "addressPrefix": "[parameters('GatewaysubnetIP')]"
+            }
+          },
+          {
+            "name": "AzureBastionSubnet",
+            "properties": {
+              "addressPrefix": "[parameters('BastionsubnetIP')]"
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('servicesNSG'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.OperationalInsights/workspaces",
+      "apiVersion": "2022-10-01",
+      "name": "[variables('servicesla')]",
+      "location": "[variables('location')]",
+      "tags": "[parameters('resourceTags')]",
+      "properties": {
+        "sku": {
+          "name": "pergb2018"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.RecoveryServices/vaults",
+      "apiVersion": "2023-01-01",
+      "name": "[variables('servicesrsv')]",
+      "location": "[variables('location')]",
+      "tags": "[parameters('resourceTags')]",
+      "sku": {
+        "name": "RS0",
+        "tier": "Standard"
+      },
+      "properties": {}
+    }
+  ]
+}
