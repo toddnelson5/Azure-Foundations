@@ -16,11 +16,11 @@ param resourceTags object = {
 }
 
 var location = resourceGroup().location
-var servicesVnet = ${vnet_services_} + location
-var servicesNSG = ${NSG_services_} + location
-var servicesSubnet = ${services-subnet} + location
-var servicesla = ${la-services-} + location
-var servicesrsv = ${rsv-services-} + location
+var servicesVnet = 'vnet_services_${location}'
+var servicesNSG = 'NSG_services_${location}'
+var servicesSubnet = 'services-subnet'
+var servicesla = 'la-services-${location}'
+var servicesrsv = 'rsv-services-${location}'
 
 resource NSG1_resource 'Microsoft.Network/networkSecurityGroups@2018-10-01' = {
   name: servicesNSG
@@ -47,7 +47,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2015-05-01-preview' = {
         properties: {
           addressPrefix: servicessubnetIP
           networkSecurityGroup: {
-            id: servicesNSG.id
+            id: NSG1_resource.id
           }
         }
       }
@@ -67,7 +67,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2015-05-01-preview' = {
   }
 }
 
-resource loganalyticsname_resource 'Microsoft.OperationalInsights/workspaces@2017-03-15-preview' = {
+resource loganalyticsname_resource 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
   name: servicesla
   location: location
   tags: resourceTags
@@ -78,7 +78,7 @@ resource loganalyticsname_resource 'Microsoft.OperationalInsights/workspaces@201
   }
 }
 
-resource RecoveryServicesVault 'Microsoft.RecoveryServices/vaults@2018-01-10' = {
+resource RecoveryServicesVault 'Microsoft.RecoveryServices/vaults@2023-01-01' = {
   name: servicesrsv
   location: location
   tags: resourceTags
