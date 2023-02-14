@@ -1,0 +1,138 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.14.46.61228",
+      "templateHash": "7234981507654235628"
+    }
+  },
+  "parameters": {
+    "vnetIPSpace": {
+      "type": "string",
+      "defaultValue": "10.0.12.0/22"
+    },
+    "avdUsersSubnetIP": {
+      "type": "string",
+      "defaultValue": "10.0.12.0/24"
+    },
+    "avdAdminsSubnetIP": {
+      "type": "string",
+      "defaultValue": "10.0.13.0/24"
+    },
+    "BastionsubnetIP": {
+      "type": "string",
+      "defaultValue": "10.0.14.0/26"
+    },
+    "resourceTags": {
+      "type": "object",
+      "defaultValue": {
+        "Environment": "AVD",
+        "Created_By": "Dataprise"
+      }
+    }
+  },
+  "variables": {
+    "location": "[resourceGroup().location]",
+    "avdVnet": "[format('vnet_avd_{0}', variables('location'))]",
+    "usersNSG": "[format('NSG_avd_users_{0}', variables('location'))]",
+    "adminNSG": "[format('NSG_avd_admins_{0}', variables('location'))]",
+    "avdUsersSubnet": "app-subnet",
+    "avdAdminsSubnet": "db-subnet",
+    "avdla": "[format('la-avd-{0}', variables('location'))]",
+    "avdrsv": "[format('rsv-avd-{0}', variables('location'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2018-10-01",
+      "name": "[variables('usersNSG')]",
+      "location": "[variables('location')]",
+      "tags": "[parameters('resourceTags')]",
+      "properties": {
+        "securityRules": []
+      }
+    },
+    {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2018-10-01",
+      "name": "[variables('adminNSG')]",
+      "location": "[variables('location')]",
+      "tags": "[parameters('resourceTags')]",
+      "properties": {
+        "securityRules": []
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualnetworks",
+      "apiVersion": "2015-05-01-preview",
+      "name": "[variables('avdVnet')]",
+      "location": "[variables('location')]",
+      "tags": "[parameters('resourceTags')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('vnetIPSpace')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('avdUsersSubnet')]",
+            "properties": {
+              "addressPrefix": "[parameters('avdUsersSubnetIP')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('usersNSG'))]"
+              }
+            }
+          },
+          {
+            "name": "[variables('avdAdminsSubnet')]",
+            "properties": {
+              "addressPrefix": "[parameters('avdAdminsSubnetIP')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('adminNSG'))]"
+              }
+            }
+          },
+          {
+            "name": "AzureBastionSubnet",
+            "properties": {
+              "addressPrefix": "[parameters('BastionsubnetIP')]"
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('usersNSG'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('adminNSG'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.RecoveryServices/vaults",
+      "apiVersion": "2023-01-01",
+      "name": "[variables('avdrsv')]",
+      "location": "[variables('location')]",
+      "tags": "[parameters('resourceTags')]",
+      "sku": {
+        "name": "RS0",
+        "tier": "Standard"
+      },
+      "properties": {
+        "publicNetworkAccess": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.OperationalInsights/workspaces",
+      "apiVersion": "2022-10-01",
+      "name": "[variables('avdla')]",
+      "location": "[variables('location')]",
+      "tags": "[parameters('resourceTags')]",
+      "properties": {
+        "sku": {
+          "name": "pergb2018"
+        }
+      }
+    }
+  ]
+}
