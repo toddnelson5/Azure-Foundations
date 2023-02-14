@@ -1,4 +1,4 @@
-param vnetIPspace string = '10.0.4.0/22'
+param vnetIPSpace string = '10.0.4.0/22'
 
 param appSubnetIP string = '10.0.4.0/24'
 param dbSubnetIP string = '10.0.5.0/24'
@@ -56,7 +56,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2015-05-01-preview' = {
   properties: {
     addressSpace: {
       addressPrefixes: [
-        vnetIPspace
+        vnetIPSpace
       ]
     }
     subnets: [
