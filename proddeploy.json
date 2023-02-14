@@ -1,0 +1,156 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.14.46.61228",
+      "templateHash": "6204393932044787281"
+    }
+  },
+  "parameters": {
+    "vnetIPspace": {
+      "type": "string",
+      "defaultValue": "10.0.4.0/22"
+    },
+    "appSubnetIP": {
+      "type": "string",
+      "defaultValue": "10.0.4.0/24"
+    },
+    "dbSubnetIP": {
+      "type": "string",
+      "defaultValue": "10.0.5.0/24"
+    },
+    "webSubnetIP": {
+      "type": "string",
+      "defaultValue": "10.0.6.0/24"
+    },
+    "BastionsubnetIP": {
+      "type": "string",
+      "defaultValue": "10.0.7.0/26"
+    },
+    "resourceTags": {
+      "type": "object",
+      "defaultValue": {
+        "Environment": "Production",
+        "Created_By": "Dataprise"
+      }
+    }
+  },
+  "variables": {
+    "location": "[resourceGroup().location]",
+    "prodVnet": "[format('vnet_prod_{0}', variables('location'))]",
+    "appNSG": "[format('NSG_app_prod_{0}', variables('location'))]",
+    "dbNSG": "[format('NSG_db_prod_{0}', variables('location'))]",
+    "webNSG": "[format('NSG_web_prod_{0}', variables('location'))]",
+    "appSubnet": "app-subnet",
+    "dbSubnet": "db-subnet",
+    "webSubnet": "web-subnet",
+    "prodla": "[format('la-prod-{0}', variables('location'))]",
+    "prodrsv": "[format('rsv-prod-{0}', variables('location'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2018-10-01",
+      "name": "[variables('appNSG')]",
+      "location": "[variables('location')]",
+      "tags": "[parameters('resourceTags')]",
+      "properties": {
+        "securityRules": []
+      }
+    },
+    {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2018-10-01",
+      "name": "[variables('dbNSG')]",
+      "location": "[variables('location')]",
+      "tags": "[parameters('resourceTags')]",
+      "properties": {
+        "securityRules": []
+      }
+    },
+    {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2018-10-01",
+      "name": "[variables('webNSG')]",
+      "location": "[variables('location')]",
+      "tags": "[parameters('resourceTags')]",
+      "properties": {
+        "securityRules": []
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualnetworks",
+      "apiVersion": "2015-05-01-preview",
+      "name": "[variables('prodVnet')]",
+      "location": "[variables('location')]",
+      "tags": "[parameters('resourceTags')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('vnetIPspace')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('appSubnet')]",
+            "properties": {
+              "addressPrefix": "[parameters('appSubnetIP')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('appNSG'))]"
+              }
+            }
+          },
+          {
+            "name": "[variables('dbSubnet')]",
+            "properties": {
+              "addressPrefix": "[parameters('dbSubnetIP')]"
+            }
+          },
+          {
+            "name": "[variables('webSubnet')]",
+            "properties": {
+              "addressPrefix": "[parameters('webSubnetIP')]"
+            }
+          },
+          {
+            "name": "AzureBastionSubnet",
+            "properties": {
+              "addressPrefix": "[parameters('BastionsubnetIP')]"
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('appNSG'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.OperationalInsights/workspaces",
+      "apiVersion": "2022-10-01",
+      "name": "[variables('prodla')]",
+      "location": "[variables('location')]",
+      "tags": "[parameters('resourceTags')]",
+      "properties": {
+        "sku": {
+          "name": "pergb2018"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.RecoveryServices/vaults",
+      "apiVersion": "2023-01-01",
+      "name": "[variables('prodrsv')]",
+      "location": "[variables('location')]",
+      "tags": "[parameters('resourceTags')]",
+      "sku": {
+        "name": "RS0",
+        "tier": "Standard"
+      },
+      "properties": {
+        "publicNetworkAccess": "Enabled"
+      }
+    }
+  ]
+}
