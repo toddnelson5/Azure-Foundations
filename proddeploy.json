@@ -5,11 +5,11 @@
     "_generator": {
       "name": "bicep",
       "version": "0.14.46.61228",
-      "templateHash": "6204393932044787281"
+      "templateHash": "7570823867450438574"
     }
   },
   "parameters": {
-    "vnetIPspace": {
+    "vnetIPSpace": {
       "type": "string",
       "defaultValue": "10.0.4.0/22"
     },
@@ -89,7 +89,7 @@
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
-            "[parameters('vnetIPspace')]"
+            "[parameters('vnetIPSpace')]"
           ]
         },
         "subnets": [
@@ -105,13 +105,19 @@
           {
             "name": "[variables('dbSubnet')]",
             "properties": {
-              "addressPrefix": "[parameters('dbSubnetIP')]"
+              "addressPrefix": "[parameters('dbSubnetIP')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('dbNSG'))]"
+              }
             }
           },
           {
             "name": "[variables('webSubnet')]",
             "properties": {
-              "addressPrefix": "[parameters('webSubnetIP')]"
+              "addressPrefix": "[parameters('webSubnetIP')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('webNSG'))]"
+              }
             }
           },
           {
@@ -123,7 +129,9 @@
         ]
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('appNSG'))]"
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('appNSG'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('dbNSG'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('webNSG'))]"
       ]
     },
     {
