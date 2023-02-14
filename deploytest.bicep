@@ -87,5 +87,7 @@ resource RecoveryServicesVault 'Microsoft.RecoveryServices/vaults@2023-01-01' = 
     tier: 'Standard'
   }
   properties: {
+    publicNetworkAccess: 'Enabled'
   }
 }
+
