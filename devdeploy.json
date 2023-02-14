@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.14.46.61228",
-      "templateHash": "3668909372382740105"
+      "templateHash": "2977390587094866483"
     }
   },
   "parameters": {
@@ -105,13 +105,19 @@
           {
             "name": "[variables('dbSubnet')]",
             "properties": {
-              "addressPrefix": "[parameters('dbSubnetIP')]"
+              "addressPrefix": "[parameters('dbSubnetIP')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('dbNSG'))]"
+              }
             }
           },
           {
             "name": "[variables('webSubnet')]",
             "properties": {
-              "addressPrefix": "[parameters('webSubnetIP')]"
+              "addressPrefix": "[parameters('webSubnetIP')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('webNSG'))]"
+              }
             }
           },
           {
@@ -123,7 +129,9 @@
         ]
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('appNSG'))]"
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('appNSG'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('dbNSG'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('webNSG'))]"
       ]
     },
     {

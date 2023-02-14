@@ -73,12 +73,18 @@ resource vnet 'Microsoft.Network/virtualNetworks@2015-05-01-preview' = {
         name: dbSubnet
         properties: {
           addressPrefix: dbSubnetIP
+          networkSecurityGroup: {
+            id: NSG2_resource.id
+          }
         }
       }
       {
         name: webSubnet
         properties: {
           addressPrefix: webSubnetIP
+          networkSecurityGroup: {
+            id: NSG3_resource.id
+          }
         }
       }
       {
