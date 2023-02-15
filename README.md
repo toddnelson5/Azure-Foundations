@@ -30,7 +30,6 @@ If the following templates are deployed as is they will deploy a /20 for all sub
 # Services Deployment with Gateway
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftoddnelson5%2FFoundations-3%2Fmain%2Fservicesdeploy.json)
-
 [![Deploy To Azure Gov](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazuregov.svg?sanitize=true)](https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftoddnelson5%2FFoundations-3%2Fmain%2Fservicesdeploy.json)
 
 # Services Deployment with Basic Gateway
