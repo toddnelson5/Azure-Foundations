@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.14.46.61228",
-      "templateHash": "7234981507654235628"
+      "version": "0.15.31.15270",
+      "templateHash": "4647975843361275394"
     }
   },
   "parameters": {
@@ -38,8 +38,8 @@
     "avdVnet": "[format('vnet_avd_{0}', variables('location'))]",
     "usersNSG": "[format('NSG_avd_users_{0}', variables('location'))]",
     "adminNSG": "[format('NSG_avd_admins_{0}', variables('location'))]",
-    "avdUsersSubnet": "app-subnet",
-    "avdAdminsSubnet": "db-subnet",
+    "avdUsersSubnet": "[format('app-subnet_{0}', variables('location'))]",
+    "avdAdminsSubnet": "[format('db-subnet_{0}', variables('location'))]",
     "avdla": "[format('la-avd-{0}', variables('location'))]",
     "avdrsv": "[format('rsv-avd-{0}', variables('location'))]"
   },

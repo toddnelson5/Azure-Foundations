@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.14.46.61228",
-      "templateHash": "809835415481577033"
+      "version": "0.15.31.15270",
+      "templateHash": "5271392556672217810"
     }
   },
   "parameters": {
@@ -49,7 +49,7 @@
     "location": "[resourceGroup().location]",
     "servicesVnet": "[format('vnet_services_{0}', variables('location'))]",
     "servicesNSG": "[format('NSG_services_{0}', variables('location'))]",
-    "servicesSubnet": "services-subnet",
+    "servicesSubnet": "[format('services-subnet_{0}', variables('location'))]",
     "servicesla": "[format('la-services-{0}', variables('location'))]",
     "servicesrsv": "[format('rsv-services-{0}', variables('location'))]"
   },

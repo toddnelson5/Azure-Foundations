@@ -18,7 +18,7 @@ param resourceTags object = {
 var location = resourceGroup().location
 var servicesVnet = 'vnet_services_${location}'
 var servicesNSG = 'NSG_services_${location}'
-var servicesSubnet = 'services-subnet'
+var servicesSubnet = 'services-subnet_${location}'
 var servicesla = 'la-services-${location}'
 var servicesrsv = 'rsv-services-${location}'
 
