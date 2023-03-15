@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.15.31.15270",
-      "templateHash": "2968561146293494071"
+      "templateHash": "10014622656521176529"
     }
   },
   "parameters": {
@@ -43,9 +43,9 @@
     "appNSG": "[format('NSG_app_prod_{0}', variables('location'))]",
     "dbNSG": "[format('NSG_db_prod_{0}', variables('location'))]",
     "webNSG": "[format('NSG_web_prod_{0}', variables('location'))]",
-    "appSubnet": "[format('app-subnet_{0}', variables('location'))]",
-    "dbSubnet": "[format('db-subnet_{0}', variables('location'))]",
-    "webSubnet": "[format('web-subnet_{0}', variables('location'))]",
+    "appSubnet": "[format('app_prod_{0}', variables('location'))]",
+    "dbSubnet": "[format('db_prod_{0}', variables('location'))]",
+    "webSubnet": "[format('web_prod_{0}', variables('location'))]",
     "prodla": "[format('la-prod-{0}', variables('location'))]",
     "prodrsv": "[format('rsv-prod-{0}', variables('location'))]"
   },

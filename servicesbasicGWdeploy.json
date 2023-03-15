@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.15.31.15270",
-      "templateHash": "9047278337956115913"
+      "templateHash": "7818330726992603064"
     }
   },
   "parameters": {
@@ -49,7 +49,7 @@
     "location": "[resourceGroup().location]",
     "servicesVnet": "[format('vnet_services_{0}', variables('location'))]",
     "servicesNSG": "[format('NSG_services_{0}', variables('location'))]",
-    "servicesSubnet": "[format('services-subnet_{0}', variables('location'))]",
+    "servicesSubnet": "[format('services_{0}', variables('location'))]",
     "servicesla": "[format('la-services-{0}', variables('location'))]",
     "servicesrsv": "[format('rsv-services-{0}', variables('location'))]"
   },

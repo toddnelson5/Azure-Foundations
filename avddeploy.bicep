@@ -13,8 +13,8 @@ var location = resourceGroup().location
 var avdVnet = 'vnet_avd_${location}'
 var usersNSG = 'NSG_avd_users_${location}'
 var adminNSG = 'NSG_avd_admins_${location}'
-var avdUsersSubnet = 'app-subnet_${location}'
-var avdAdminsSubnet = 'db-subnet_${location}'
+var avdUsersSubnet = 'app_avd_${location}'
+var avdAdminsSubnet = 'db_avd_${location}'
 var avdla = 'la-avd-${location}'
 var avdrsv = 'rsv-avd-${location}'
 
