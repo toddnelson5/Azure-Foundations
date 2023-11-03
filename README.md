@@ -28,6 +28,7 @@ If the following templates are deployed as is they will deploy a /20 for all sub
 | /24 |	WVD_AdminsSubnet |	NSG_Admins |	10.0.13.0/24 |
 | /26 |	BastionSubnet |	None |	10.0.14.0/26 |
 
+# Landing Zone Deployments:
 # Services Deployment with Gateway
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftoddnelson5%2FFoundations-3%2Fmain%2Fservicesdeploy.json)
