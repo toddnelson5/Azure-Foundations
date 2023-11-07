@@ -2,6 +2,7 @@
 
 These are JSON templates for a new azure foundations deployment.  The deployments include the basic infrastructure for each subscription.  They include objects like VNETs, NSGs, Virtual Network Gateways, Recovey Services Vaults, and a single Log Analytics account.
 
+# Notes:
 If the following templates are deployed as is they will deploy a /20 for all subscriptions and deployments.  You can change the IP ranges for any or all deployments.  The table below shows the current breakdown for each deployment. 
 
 | IP Range |	/20 for all deployments |	NSGs |	10.0.0.0-10.0.15.255 |
@@ -27,6 +28,7 @@ If the following templates are deployed as is they will deploy a /20 for all sub
 | /24 |	WVD_AdminsSubnet |	NSG_Admins |	10.0.13.0/24 |
 | /26 |	BastionSubnet |	None |	10.0.14.0/26 |
 
+# Landing Zone Deployments:
 # Services Deployment with Gateway
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftoddnelson5%2FFoundations-3%2Fmain%2Fservicesdeploy.json)
