@@ -33,7 +33,7 @@
       "type": "object",
       "defaultValue": {
         "Environment": "Dev/Test",
-        "Created_By": "Dataprise"
+        "Created_By": "Todd Nelson"
       }
     }
   },
