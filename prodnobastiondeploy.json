@@ -29,7 +29,7 @@
       "type": "object",
       "defaultValue": {
         "Environment": "Production",
-        "Created_By": "Todd Nelson"
+        "Created_By": "IaC Deployment"
       }
     }
   },

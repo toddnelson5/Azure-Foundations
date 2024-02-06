@@ -12,7 +12,7 @@ param GatewaysubnetIP string = '10.0.0.192/27'
 
 param resourceTags object = {
   Environment: 'Services'
-  Created_By: 'Todd Nelson'
+  Created_By: 'IaC Deployment'
 }
 
 var location = resourceGroup().location

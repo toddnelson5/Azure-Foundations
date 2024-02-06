@@ -7,7 +7,7 @@ param BastionsubnetIP string = '10.0.11.0/26'
 
 param resourceTags object = {
   Environment: 'Dev/Test'
-  Created_By: 'Todd Nelson'
+  Created_By: 'IaC Deployment'
 }
 
 var location = resourceGroup().location
