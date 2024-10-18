@@ -43,6 +43,15 @@
         "Environment": "Services",
         "Created_By": "IaC Deployment"
       }
+    },
+    "avdVnetId": {
+      "type": "string"
+    },
+    "devVnetId": {
+      "type": "string"
+    },
+    "prodVnetId": {
+      "type": "string"
     }
   },
   "variables": {
@@ -171,6 +180,60 @@
       "dependsOn": [
         "[resourceId('Microsoft.Network/publicIPAddresses', 'GWpubIP')]",
         "[resourceId('Microsoft.Network/virtualnetworks', variables('servicesVnet'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+      "apiVersion": "2020-05-01",
+      "name": "servicesToAvdPeering",
+      "location": "[variables('location')]",
+      "properties": {
+        "remoteVirtualNetwork": {
+          "id": "[parameters('avdVnetId')]"
+        },
+        "allowVirtualNetworkAccess": true,
+        "allowForwardedTraffic": true,
+        "allowGatewayTransit": false,
+        "useRemoteGateways": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', variables('servicesVnet'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+      "apiVersion": "2020-05-01",
+      "name": "servicesToDevPeering",
+      "location": "[variables('location')]",
+      "properties": {
+        "remoteVirtualNetwork": {
+          "id": "[parameters('devVnetId')]"
+        },
+        "allowVirtualNetworkAccess": true,
+        "allowForwardedTraffic": true,
+        "allowGatewayTransit": false,
+        "useRemoteGateways": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', variables('servicesVnet'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+      "apiVersion": "2020-05-01",
+      "name": "servicesToProdPeering",
+      "location": "[variables('location')]",
+      "properties": {
+        "remoteVirtualNetwork": {
+          "id": "[parameters('prodVnetId')]"
+        },
+        "allowVirtualNetworkAccess": true,
+        "allowForwardedTraffic": true,
+        "allowGatewayTransit": false,
+        "useRemoteGateways": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', variables('servicesVnet'))]"
       ]
     }
   ]

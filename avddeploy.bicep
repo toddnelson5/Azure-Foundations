@@ -3,6 +3,7 @@ param vnetIPSpace string = '10.0.12.0/22'
 param avdUsersSubnetIP string = '10.0.12.0/24'
 param avdAdminsSubnetIP string = '10.0.13.0/24'
 param BastionsubnetIP string = '10.0.14.0/26'
+param servicesVnetId string
 
 param resourceTags object = {
   Environment: 'AVD'
@@ -97,4 +98,21 @@ resource loganalyticsname_resource 'Microsoft.OperationalInsights/workspaces@202
       name: 'pergb2018'
     }
   }
+}
+
+resource avdToServicesPeering 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2020-05-01' = {
+  name: 'avdToServicesPeering'
+  location: location
+  properties: {
+    remoteVirtualNetwork: {
+      id: servicesVnetId
+    }
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: false
+    useRemoteGateways: false
+  }
+  dependsOn: [
+    vnet
+  ]
 }

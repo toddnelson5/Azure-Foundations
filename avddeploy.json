@@ -31,6 +31,9 @@
         "Environment": "AVD",
         "Created_By": "IaC Deployment"
       }
+    },
+    "servicesVnetId": {
+      "type": "string"
     }
   },
   "variables": {
@@ -133,6 +136,24 @@
           "name": "pergb2018"
         }
       }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+      "apiVersion": "2020-05-01",
+      "name": "avdToServicesPeering",
+      "location": "[variables('location')]",
+      "properties": {
+        "remoteVirtualNetwork": {
+          "id": "[parameters('servicesVnetId')]"
+        },
+        "allowVirtualNetworkAccess": true,
+        "allowForwardedTraffic": true,
+        "allowGatewayTransit": false,
+        "useRemoteGateways": false
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', variables('avdVnet'))]"
+      ]
     }
   ]
 }

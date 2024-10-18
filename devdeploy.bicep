@@ -4,6 +4,7 @@ param appSubnetIP string = '10.0.8.0/24'
 param dbSubnetIP string = '10.0.9.0/24'
 param webSubnetIP string = '10.0.10.0/24'
 param BastionsubnetIP string = '10.0.11.0/26'
+param servicesVnetId string
 
 param resourceTags object = {
   Environment: 'Dev/Test'
@@ -121,3 +122,19 @@ resource RecoveryServicesVault 'Microsoft.RecoveryServices/vaults@2023-01-01' = 
   }
 }
 
+resource devToServicesPeering 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2020-05-01' = {
+  name: 'devToServicesPeering'
+  location: location
+  properties: {
+    remoteVirtualNetwork: {
+      id: servicesVnetId
+    }
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: false
+    useRemoteGateways: false
+  }
+  dependsOn: [
+    vnet
+  ]
+}
