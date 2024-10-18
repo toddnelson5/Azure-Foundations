@@ -15,6 +15,10 @@ param resourceTags object = {
   Created_By: 'IaC Deployment'
 }
 
+param avdVnetId string
+param devVnetId string
+param prodVnetId string
+
 var location = resourceGroup().location
 var servicesVnet = 'vnet_services_${location}'
 var servicesNSG = 'NSG_services_${location}'
@@ -129,5 +133,56 @@ resource Gateway 'Microsoft.Network/virtualNetworkGateways@2018-10-01' = {
   dependsOn: [
     vnet
 
+  ]
+}
+
+resource servicesToAvdPeering 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2020-05-01' = {
+  name: 'servicesToAvdPeering'
+  location: location
+  properties: {
+    remoteVirtualNetwork: {
+      id: avdVnetId
+    }
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: false
+    useRemoteGateways: false
+  }
+  dependsOn: [
+    vnet
+  ]
+}
+
+resource servicesToDevPeering 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2020-05-01' = {
+  name: 'servicesToDevPeering'
+  location: location
+  properties: {
+    remoteVirtualNetwork: {
+      id: devVnetId
+    }
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: false
+    useRemoteGateways: false
+  }
+  dependsOn: [
+    vnet
+  ]
+}
+
+resource servicesToProdPeering 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2020-05-01' = {
+  name: 'servicesToProdPeering'
+  location: location
+  properties: {
+    remoteVirtualNetwork: {
+      id: prodVnetId
+    }
+    allowVirtualNetworkAccess: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: false
+    useRemoteGateways: false
+  }
+  dependsOn: [
+    vnet
   ]
 }
